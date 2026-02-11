@@ -1,5 +1,5 @@
-const myLibrary= [Harry Potter, The Hobbit, Lord of the Rings];
-const 
+const myLibrary= [];
+const table= document.querySelector("table");
 
 function Book(title, author, pages, id){
     this.title=title;
@@ -13,3 +13,15 @@ function addBookToLib(title, author, pages){
     let newBook= new Book(title, author, pages, newId);
     myLibrary.push(newBook);
 }
+
+function displayBooks(){
+    for(let i=0; i<myLibrary.length; ++i){
+        let row= table.insertRow();
+        let cell= row.insertCell(0);
+
+        cell.innerHTML= myLibrary[i].title;
+    }
+}
+
+
+
