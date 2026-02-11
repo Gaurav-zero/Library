@@ -13,3 +13,7 @@ tr,th{
     padding: 5px;
     margin: 20px;
 }
+
+.form-inputs{
+    display: block;
+}
