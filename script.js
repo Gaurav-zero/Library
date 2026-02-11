@@ -19,9 +19,24 @@ function addBookToLib(title, author, pages){
 function displayBooks(){
     for(let i=0; i<myLibrary.length; ++i){
         let row= table.insertRow();
-        let cell= row.insertCell(0);
+        let cell0= row.insertCell(0);
+        let cell1=row.insertCell(1);        
 
-        cell.innerHTML= myLibrary[i].title;
+        cell0.textContent= myLibrary[i].title;
+        let deleteBtn= document.createElement("button");
+        deleteBtn.setAttribute('type', "button");
+        deleteBtn.textContent= "del";
+
+        cell1.appendChild(deleteBtn);
+        
+
+        deleteBtn.addEventListener("click", (e) =>{
+            myLibrary.splice(i,1);
+            let thisRow= deleteBtn.parentNode.parentNode;
+            thisRow.parentNode.removeChild(thisRow);
+        });
+
+        
     }
 }
 
