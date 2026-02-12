@@ -18,20 +18,37 @@ function addBookToLib(title, author, pages, readStatus){
 }
 
 function displayBooks(){
+    let tableLength= table.rows.length;
+    for(let i=tableLength-1; i>=0; --i){
+        table.deleteRow(0);
+    }
+
     let headingRow= table.insertRow();
     headingRow.insertCell(0).outerHTML="<th>Book Name</th>";
+    headingRow.insertCell(1).outerHTML="<th>Author</th>";
+    headingRow.insertCell(2).outerHTML="<th>Pages</th>";
+    headingRow.insertCell(3).outerHTML="<th>Id</th>";
+    headingRow.insertCell(4).outerHTML="<th>readStatus</th>";
     
     for(let i=0; i<myLibrary.length; ++i){
         let row= table.insertRow();
         let cell0= row.insertCell(0);
-        let cell1=row.insertCell(1);        
+        let cell1=row.insertCell(1);
+        let cell2=row.insertCell(2);
+        let cell3=row.insertCell(3);
+        let cell4=row.insertCell(4);
+        let cell5=row.insertCell(5);        
 
         cell0.textContent= myLibrary[i].title;
+        cell1.textContent= myLibrary[i].author;
+        cell2.textContent= myLibrary[i].pages;
+        cell3.textContent= myLibrary[i].id;
+        cell4.textContent= myLibrary[i].readStatus;
+
         let deleteBtn= document.createElement("button");
         deleteBtn.setAttribute('type', "button");
         deleteBtn.textContent= "del";
-
-        cell1.appendChild(deleteBtn);
+        cell5.appendChild(deleteBtn);
         
 
         deleteBtn.addEventListener("click", (e) =>{
@@ -52,6 +69,7 @@ btn.addEventListener("click", (e) => {
     i1.setAttribute('type', "text");
     i1.setAttribute('name', "bookName");
     i1.setAttribute('id', "bookName");
+    i1.required=true;
     
 
     let l2= document.createElement("label");
@@ -61,6 +79,7 @@ btn.addEventListener("click", (e) => {
     i2.setAttribute('type', "text");
     i2.setAttribute('name', "author");
     i2.setAttribute('id', "author");
+    i2.required=true;
 
 
     let l3= document.createElement("label");
@@ -70,6 +89,7 @@ btn.addEventListener("click", (e) => {
     i3.setAttribute('type', "text");
     i3.setAttribute('name', "pages");
     i3.setAttribute('id', "pages");
+    i3.required=true;
 
     let l4= document.createElement("label");
     l4.setAttribute('for', "readStatus");
@@ -91,6 +111,7 @@ btn.addEventListener("click", (e) => {
         i2.value="";
         i3.value="";
         i4.checked=false;
+        displayBooks();
     });
 
 
