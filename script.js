@@ -3,17 +3,23 @@ const table= document.querySelector("table");
 const btn= document.querySelector("button");
 const body= document.querySelector("body");
 
-function Book(title, author, pages, id, readStatus){
+function Book(title, author, pages, id){
     this.title=title;
     this.author=author;
     this.pages=pages;
     this.id=id;
-    this.readStatus= readStatus;
+    this.readStatus= "NO";
 }
 
-function addBookToLib(title, author, pages, readStatus){
+Book.prototype.toggleReadStatus= function(){
+    if(this.readStatus === "NO") this.readStatus= "YES";
+    else this.readStatus= "NO";
+    displayBooks();
+};
+
+function addBookToLib(title, author, pages){
     let newId= crypto.randomUUID();
-    let newBook= new Book(title, author, pages, newId, readStatus);
+    let newBook= new Book(title, author, pages, newId);
     myLibrary.push(newBook);
 }
 
@@ -37,18 +43,32 @@ function displayBooks(){
         let cell2=row.insertCell(2);
         let cell3=row.insertCell(3);
         let cell4=row.insertCell(4);
-        let cell5=row.insertCell(5);        
+        let cell5=row.insertCell(5);
+        let cell6=row.insertCell(6);        
 
         cell0.textContent= myLibrary[i].title;
         cell1.textContent= myLibrary[i].author;
         cell2.textContent= myLibrary[i].pages;
         cell3.textContent= myLibrary[i].id;
         cell4.textContent= myLibrary[i].readStatus;
+        
+        let readCheck= document.createElement("input");
+        readCheck.setAttribute('type', "checkbox");
+        cell5.appendChild(readCheck)
+
+        if(myLibrary[i].readStatus === "NO"){
+            readCheck.checked= false;
+        }
+        else readCheck.checked= true;
+
+        readCheck.addEventListener("change", (e)=>{
+            myLibrary[i].toggleReadStatus();
+        });
 
         let deleteBtn= document.createElement("button");
         deleteBtn.setAttribute('type', "button");
         deleteBtn.textContent= "del";
-        cell5.appendChild(deleteBtn);
+        cell6.appendChild(deleteBtn);
         
 
         deleteBtn.addEventListener("click", (e) =>{
@@ -58,6 +78,13 @@ function displayBooks(){
         });        
     }
 }
+
+
+Book.prototype.toggleReadStatus= function(){
+    if(this.readStatus === "NO") this.readStatus= "YES";
+    else this.readStatus= "NO";
+    displayBooks();
+};
 
 btn.addEventListener("click", (e) => {
     let f= document.createElement("form");
@@ -91,15 +118,6 @@ btn.addEventListener("click", (e) => {
     i3.setAttribute('id', "pages");
     i3.required=true;
 
-    let l4= document.createElement("label");
-    l4.setAttribute('for', "readStatus");
-    l4.textContent= "Read";   
-    let i4= document.createElement("input");
-    i4.setAttribute('type', "checkbox");
-    i4.setAttribute('name', "readStatus");
-    i4.setAttribute('id', "readStatus");
-
-
     let formButton= document.createElement("button");
     formButton.setAttribute('type', "submit");
     formButton.textContent= "Add";
@@ -110,7 +128,6 @@ btn.addEventListener("click", (e) => {
         i1.value="";
         i2.value="";
         i3.value="";
-        i4.checked=false;
         displayBooks();
     });
 
@@ -121,8 +138,6 @@ btn.addEventListener("click", (e) => {
     f.appendChild(i2);
     f.appendChild(l3);
     f.appendChild(i3);
-    f.appendChild(l4);
-    f.appendChild(i4);
     f.appendChild(formButton);
     
     body.appendChild(f);
