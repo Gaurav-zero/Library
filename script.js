@@ -3,7 +3,24 @@ const table= document.querySelector("table");
 const btn= document.querySelector("button");
 const body= document.querySelector("body");
 
-function Book(title, author, pages, id){
+class Book{
+
+    constructor(title, author, pages, id){
+        this.title=title;
+        this.author= author;
+        this.pages= pages;
+        this.id= id;
+        this .readStatus= "NO";
+    }
+
+    toggleReadStatus(){
+        if(this.readStatus === "NO") this.readStatus= "YES";
+        else this.readStatus= "NO";
+        displayBooks();
+    }
+}
+
+/*function Book(title, author, pages, id){
     this.title=title;
     this.author=author;
     this.pages=pages;
@@ -15,7 +32,7 @@ Book.prototype.toggleReadStatus= function(){
     if(this.readStatus === "NO") this.readStatus= "YES";
     else this.readStatus= "NO";
     displayBooks();
-};
+}; */
 
 function addBookToLib(title, author, pages){
     let newId= crypto.randomUUID();
@@ -80,11 +97,7 @@ function displayBooks(){
 }
 
 
-Book.prototype.toggleReadStatus= function(){
-    if(this.readStatus === "NO") this.readStatus= "YES";
-    else this.readStatus= "NO";
-    displayBooks();
-};
+
 
 btn.addEventListener("click", (e) => {
     let f= document.createElement("form");
