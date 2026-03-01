@@ -89,6 +89,8 @@ Book.prototype.toggleReadStatus= function(){
 btn.addEventListener("click", (e) => {
     let f= document.createElement("form");
 
+    f.noValidate=true;
+
     let l1= document.createElement("label");
     l1.setAttribute('for', "bookName");
     l1.textContent= "Book Name";  
@@ -113,16 +115,38 @@ btn.addEventListener("click", (e) => {
     l3.setAttribute('for', "pages");
     l3.textContent= "No. of Pages";   
     let i3= document.createElement("input");
-    i3.setAttribute('type', "text");
+    i3.setAttribute('type', "number");
     i3.setAttribute('name', "pages");
     i3.setAttribute('id', "pages");
     i3.required=true;
+    i3.setAttribute("min", 500);
+    
 
     let formButton= document.createElement("button");
     formButton.setAttribute('type', "submit");
     formButton.textContent= "Add";
 
     f.addEventListener("submit" , (e)=>{
+        if(i2.validity.valueMissing){
+            i2.setCustomValidity("Author name is required");
+        }
+        else{
+            i2.setCustomValidity("");
+        }
+
+        if(i3.validity.rangeUnderflow){
+            i3.setCustomValidity("gotta be more than 500 mate");
+        }
+        else{
+            i3.setCustomValidity("");
+        }
+
+        if(!f.checkValidity()){
+            e.preventDefault();
+            f.reportValidity();
+            return;
+        }
+
         e.preventDefault();
         addBookToLib(i1.value, i2.value, i3.value);
         i1.value="";
